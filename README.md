@@ -7,3 +7,7 @@ Ever wonder why your follower count decreased? Ever wonder who unfollowed you? I
 
 ## Description
 This package aims to track a person's followers and followees using the [Instaloader](https://instaloader.github.io/) package. This is done by taking a snapshot of a person's followers and followees and comparing to another point in time.
+
+
+## Instructions
+Navigate into the "src" folder and run [main_script.py](https://github.com/thejacktan/Instachecker/blob/master/src/main_script.py).
