@@ -1,5 +1,8 @@
 import functions as my_fun
 
+default_name = "poppiepayne"
+default_pass = "456827913"
+
 my_target = str(input("Profile you want to analyze: "))
 print("You have selected profile handle: " + my_target)
 my_login = str(input("Profile you want to login with: "))

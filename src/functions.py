@@ -3,6 +3,7 @@ import copy
 import instaloader
 import pandas as pd
 from datetime import datetime, date
+from pathlib import Path
 
 
 def get_data(target_name, login_name):
@@ -29,17 +30,19 @@ def get_data(target_name, login_name):
         temp_df = pd.DataFrame(data=temp_data)
         df_followers = df_followees.append(temp_df, ignore_index=True)
 
-    df_followees.to_csv(path_or_buf=('data/' + str(today) + '_followees_' + target_name + '.csv'),
+    Path('../data').mkdir(exist_ok=True)
+
+    df_followees.to_csv(path_or_buf=('../data/' + str(today) + '_followees_' + target_name + '.csv'),
                         index=False)
 
-    df_followers.to_csv(path_or_buf=('data/' + str(today) + '_followers_' + target_name + '.csv'),
+    df_followers.to_csv(path_or_buf=('../data/' + str(today) + '_followers_' + target_name + '.csv'),
                         index=False)
 
     return
 
 
 def analyze_data(target_name, from_date='', to_date=''):
-    my_files_all = os.listdir('data/')
+    my_files_all = os.listdir('../data/')
     my_files = copy.deepcopy(my_files_all)
 
     for file in my_files_all:
@@ -89,11 +92,11 @@ def analyze_data(target_name, from_date='', to_date=''):
         from_date = default_from_date.date()
 
     # Actually reading the files
-    to_date_followee_data = pd.read_csv('data/' + to_date_followee + '.csv')
-    to_date_follower_data = pd.read_csv('data/' + to_date_follower + '.csv')
+    to_date_followee_data = pd.read_csv('../data/' + to_date_followee + '.csv')
+    to_date_follower_data = pd.read_csv('../data/' + to_date_follower + '.csv')
 
-    from_date_followee_data = pd.read_csv('data/' + from_date_followee + '.csv')
-    from_date_follower_data = pd.read_csv('data/' + from_date_follower + '.csv')
+    from_date_followee_data = pd.read_csv('../data/' + from_date_followee + '.csv')
+    from_date_follower_data = pd.read_csv('../data/' + from_date_follower + '.csv')
 
     new_followers = list(set(to_date_follower_data['userid']) - set(from_date_follower_data['userid']))
     past_followers = list(set(from_date_follower_data['userid']) - set(to_date_follower_data['userid']))
@@ -109,7 +112,9 @@ def analyze_data(target_name, from_date='', to_date=''):
 
     report_df = pd.DataFrame(data=report_data)
 
-    report_df.to_csv(path_or_buf = ('reports/' + str(from_date) + '_to_' + str(to_date) + '_' + target_name + '.csv'),
+    Path('../reports').mkdir(exist_ok=True)
+
+    report_df.to_csv(path_or_buf = ('../reports/' + str(from_date) + '_to_' + str(to_date) + '_' + target_name + '.csv'),
                      index = False)
 
     return
