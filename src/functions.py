@@ -182,8 +182,9 @@ def analyze_data(target_name, from_date='', to_date=''):
 
     if (to_follower is False) & (from_follower is False):
         past_followers_id = list(set(from_date_follower_data['userid']) - set(to_date_follower_data['userid']))
+        temp_list = copy.deepcopy(past_followers_id)
         # Check if account is deactivated; remove from list if so
-        for n in past_followers_id:
+        for n in temp_list:
             if n in deactivated_id:
                 past_followers_id.remove(n)
                 continue
@@ -203,7 +204,9 @@ def analyze_data(target_name, from_date='', to_date=''):
 
     if (to_followee is False) & (from_followee is False):
         past_followees_id = list(set(from_date_followee_data['userid']) - set(to_date_followee_data['userid']))
-        for n in past_followees_id:
+        temp_list = copy.deepcopy(past_followees_id)
+        # Check if account is deactivated; remove from list if so
+        for n in temp_list:
             if n in deactivated_id:
                 past_followees_id.remove(n)
                 continue
