@@ -10,7 +10,7 @@ This package aims to track a person's followers and followees using the [Instalo
 
 
 ## Usage
-Navigate into the "src" folder and run [main_script.py](https://github.com/thejacktan/Instachecker/blob/master/src/main_script.py). Two folders called "data" and "report" will be created in the main repo directory.
+Navigate to the "src" folder and run [main_script.py](https://github.com/thejacktan/Instachecker/blob/master/src/main_script.py). Two folders called "data" and "report" will be created in the main repo directory. NOTE: For package to work as desired, please ensure that login account is not blocked by any of target account's followers or followees.
 
 ## Dependencies
 - Python 3.7.5
