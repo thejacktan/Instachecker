@@ -4,25 +4,18 @@ import instaloader
 import pandas as pd
 from datetime import datetime, date
 from pathlib import Path
-import sys
 
 
-def get_data(target_name, login_name, login_pass):
+def get_data(target_name, my_instance):
     """
     This function gets a list of followers and followees for a given
     Instagram account using the "Instaloader" package, and saves them
     as csv files. This is used for generating future reports.
 
     :param target_name: username of profile you want to analyze
-    :param login_name: username you want to login to Instagram with
-    (Instagram requires viewer to be logged in to see followers/followees)
-    :param login_pass: password of account you want to login with
+    :param my_instance: instaloader instance used to scrape data
     :return: N/A
     """
-
-    # Initializing Instaloader login
-    L = instaloader.Instaloader()
-    L.login(user=login_name, passwd=login_pass)
 
     df_followees = pd.DataFrame(columns=['userid', 'username', 'full_name'])
     df_followers = pd.DataFrame(columns=['userid', 'username', 'full_name'])
@@ -30,16 +23,16 @@ def get_data(target_name, login_name, login_pass):
 
     # Loading target profile
     try:
-        target_profile = instaloader.Profile.from_username(L.context, target_name)
+        target_profile = instaloader.Profile.from_username(my_instance.context, target_name)
     except Exception as e:
         print(e)
-        print('Target profile does not exist! Please make sure ' + login_name + ' is not blocked by target profile!')
-        sys.exit(1)
+        raise SystemExit("Target profile does not exist! Please make sure " + my_instance.context.username +
+              " is not blocked by " + target_name + "!")
 
     # Seeing if target profile data is accessible
     if (target_profile.is_private is True) & (target_profile.followed_by_viewer is False):
-        raise Exception('The target profile "' + target_name + '" is private! Account "' +
-                        login_name + '" has not followed them!')
+        raise Exception("The target profile '" + target_name + "' is private! Account '" +
+                        my_instance.context.username + "' has not followed them!")
 
     # Recording userid, username and full name of followers/followees
     for followee in target_profile.get_followees():
